@@ -46,7 +46,7 @@ springBoot {
 
 jib {
     from {
-        image = "openjdk:23-slim-bullseye"
+        image = "eclipse-temurin:21-jre"
     }
     container {
         mainClass = "OAuthMock"
