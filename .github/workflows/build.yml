@@ -59,29 +59,29 @@ jobs:
             --console=plain \
             --no-daemon \
           ;
-  publish:
-    name: Publish ${{ needs.version.outputs.version }} to Titan01
-    runs-on: ubuntu-latest
-    needs:
-      - version
-      - build
-    env:
-      VERSION: ${{ needs.version.outputs.version }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Configure Kubernetes
-        run: mkdir ~/.kube && echo '${{ secrets.KUBE_CONFIG_TITAN_01 }}' > ~/.kube/config
-      - name: Deploy to Kubernetes
-        shell: bash
-        run: |
-          helm upgrade -i oauth-mock ./chart \
-            --set image.tag=$VERSION \
-            --set ingress.enabled=true \
-            --set ingress.domain=oauth-mock.solugo.de \
-            --set ingress.annotations."kubernetes\.io/ingress\.class"=public \
-            --set ingress.annotations."cert-manager\.io/cluster-issuer"=letsencrypt \
-            --set imagePull.credentials.registry="ghcr.io" \
-            --set imagePull.credentials.username="${{ secrets.REGISTRY_PULL_USERNAME }}" \
-            --set imagePull.credentials.password="${{ secrets.REGISTRY_PULL_PASSWORD }}" \
-          ;
+#  publish:
+#    name: Publish ${{ needs.version.outputs.version }} to Titan01
+#    runs-on: ubuntu-latest
+#    needs:
+#      - version
+#      - build
+#    env:
+#      VERSION: ${{ needs.version.outputs.version }}
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#      - name: Configure Kubernetes
+#        run: mkdir ~/.kube && echo '${{ secrets.KUBE_CONFIG_TITAN_01 }}' > ~/.kube/config
+#      - name: Deploy to Kubernetes
+#        shell: bash
+#        run: |
+#          helm upgrade -i oauth-mock ./chart \
+#            --set image.tag=$VERSION \
+#            --set ingress.enabled=true \
+#            --set ingress.domain=oauth-mock.solugo.de \
+#            --set ingress.annotations."kubernetes\.io/ingress\.class"=public \
+#            --set ingress.annotations."cert-manager\.io/cluster-issuer"=letsencrypt \
+#            --set imagePull.credentials.registry="ghcr.io" \
+#            --set imagePull.credentials.username="${{ secrets.REGISTRY_PULL_USERNAME }}" \
+#            --set imagePull.credentials.password="${{ secrets.REGISTRY_PULL_PASSWORD }}" \
+#          ;
